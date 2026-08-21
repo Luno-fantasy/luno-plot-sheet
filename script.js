@@ -2,7 +2,6 @@ const fields = {
   titleInput: ['previewTitle', '作品タイトル'],
   catchInput: ['previewCatch', 'ここにキャッチコピーが入ります。'],
   categoryInput: ['previewCategory', 'Fantasy'],
-  typeInput: ['previewType', 'NL / Multi'],
   creatorInput: ['previewCreator', 'Luno'],
   idInput: ['previewId', 'ZETA / Talelynx'],
   tagInput: ['previewTags', '#幻想 #創作 #AIチャット'],
@@ -15,6 +14,8 @@ const previewCover = document.getElementById('previewCover');
 const coverPlaceholder = document.getElementById('coverPlaceholder');
 const summaryInput = document.getElementById('summaryInput');
 const charCount = document.getElementById('charCount');
+const typeInputs = [...document.querySelectorAll('input[name="type"]')];
+const previewType = document.getElementById('previewType');
 
 Object.entries(fields).forEach(([inputId, [previewId, fallback]]) => {
   const input = document.getElementById(inputId);
@@ -24,6 +25,13 @@ Object.entries(fields).forEach(([inputId, [previewId, fallback]]) => {
     if (inputId === 'summaryInput') charCount.textContent = input.value.length;
   });
 });
+
+function updateTypePreview() {
+  const selected = typeInputs.filter(input => input.checked).map(input => input.value);
+  previewType.textContent = selected.length ? selected.join(' / ') : '未選択';
+}
+
+typeInputs.forEach(input => input.addEventListener('change', updateTypePreview));
 
 coverInput.addEventListener('change', () => {
   const file = coverInput.files?.[0];
@@ -42,7 +50,6 @@ document.getElementById('sampleButton').addEventListener('click', () => {
     titleInput: 'ボス、今夜は俺に従え。',
     catchInput: '忠実な右腕が、二人きりの夜だけ命令を変える。',
     categoryInput: 'Mafia / Romance',
-    typeInput: 'NL / Dom × Boss',
     creatorInput: 'Luno',
     idInput: 'ZETA / Talelynx',
     tagInput: '#主従 #執着 #マフィア #大人の恋愛',
@@ -54,6 +61,9 @@ document.getElementById('sampleButton').addEventListener('click', () => {
     input.value = value;
     input.dispatchEvent(new Event('input'));
   });
+
+  typeInputs.forEach(input => { input.checked = input.value === 'NL'; });
+  updateTypePreview();
   statusText.textContent = 'サンプルを反映しました。';
 });
 
@@ -63,6 +73,8 @@ document.getElementById('resetButton').addEventListener('click', () => {
     input.value = '';
     document.getElementById(previewId).textContent = fallback;
   });
+  typeInputs.forEach(input => { input.checked = false; });
+  updateTypePreview();
   coverInput.value = '';
   previewCover.src = '';
   previewCover.hidden = true;
@@ -109,7 +121,7 @@ function fitPreview() {
     sheet.style.marginBottom = '';
     return;
   }
-  const available = Math.max(280, wrap.clientWidth - 8);
+  const available = Math.max(260, wrap.clientWidth - 4);
   const scale = Math.min(1, available / 720);
   sheet.style.transform = `scale(${scale})`;
   sheet.style.marginBottom = `${-(sheet.offsetHeight * (1 - scale))}px`;
@@ -118,3 +130,4 @@ function fitPreview() {
 window.addEventListener('resize', fitPreview);
 window.addEventListener('load', fitPreview);
 summaryInput.dispatchEvent(new Event('input'));
+updateTypePreview();
