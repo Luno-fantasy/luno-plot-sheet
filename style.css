@@ -1,0 +1,181 @@
+:root {
+  --bg: #f7f4fb;
+  --panel: rgba(255,255,255,.82);
+  --ink: #343145;
+  --muted: #817b94;
+  --line: #ddd6eb;
+  --lavender: #766b9f;
+  --lavender-deep: #5d527f;
+  --lavender-soft: #eee9f7;
+  --gold: #b79b68;
+  --sheet: #fcfbff;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: linear-gradient(180deg, #faf8fd 0%, #f3eff9 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+}
+button, input, textarea { font: inherit; }
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+  gap: 28px;
+  padding: 28px;
+}
+
+.editor-panel,
+.preview-panel {
+  background: var(--panel);
+  border: 1px solid rgba(118,107,159,.18);
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+}
+.editor-panel { padding: 28px; }
+.preview-panel { padding: 24px; }
+
+.brand-block h1,
+.preview-head h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: .05em;
+  font-weight: 500;
+}
+.brand-block h1 { font-size: 30px; }
+.subtitle { color: var(--muted); line-height: 1.7; margin: 10px 0 24px; }
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--lavender);
+}
+
+.form-grid { display: grid; gap: 16px; }
+label { display: grid; gap: 7px; font-size: 13px; }
+label > span { color: var(--lavender-deep); font-weight: 600; }
+input, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.9);
+  border-radius: 12px;
+  padding: 11px 12px;
+  color: var(--ink);
+  outline: none;
+}
+input:focus, textarea:focus { border-color: var(--lavender); box-shadow: 0 0 0 3px rgba(118,107,159,.10); }
+textarea { resize: vertical; min-height: 150px; line-height: 1.7; }
+small { color: var(--muted); }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 16px;
+  cursor: pointer;
+}
+button.primary { background: var(--lavender-deep); color: #fff; }
+button.secondary { background: var(--lavender-soft); color: var(--lavender-deep); }
+.status { min-height: 1.4em; color: var(--muted); font-size: 12px; margin: 10px 0 0; }
+
+.preview-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+.size-chip {
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.sheet-wrap { display: flex; justify-content: center; overflow: auto; padding: 4px; }
+
+.plot-sheet {
+  position: relative;
+  width: 720px;
+  aspect-ratio: 4 / 5;
+  flex: 0 0 auto;
+  overflow: hidden;
+  padding: 48px;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(214,205,236,.34), transparent 28%),
+    radial-gradient(circle at 90% 88%, rgba(225,215,241,.32), transparent 32%),
+    var(--sheet);
+  border: 1px solid #dcd5ea;
+  box-shadow: 0 18px 48px rgba(75,62,103,.10);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 26px;
+}
+.plot-sheet::before,
+.plot-sheet::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.plot-sheet::before {
+  inset: 18px;
+  border: 1px solid rgba(183,155,104,.45);
+}
+.plot-sheet::after {
+  inset: 26px;
+  border: 1px solid rgba(118,107,159,.14);
+}
+.celestial { position: absolute; color: rgba(118,107,159,.35); font-family: Georgia, serif; }
+.celestial-a { top: 18px; right: 40px; font-size: 34px; }
+.celestial-b { top: 76px; right: 78px; font-size: 16px; }
+.celestial-c { bottom: 62px; left: 32px; font-size: 22px; }
+
+.sheet-header { text-align: center; padding-top: 12px; }
+.sheet-kicker { margin: 0 0 8px; font-size: 11px; letter-spacing: .24em; color: var(--gold); }
+.sheet-header h3 {
+  margin: 0;
+  font: 500 34px/1.35 Georgia, "Yu Mincho", serif;
+  letter-spacing: .04em;
+  color: #403a55;
+}
+.sheet-catch { margin: 10px auto 0; max-width: 82%; color: var(--muted); line-height: 1.6; }
+
+.sheet-main { display: grid; grid-template-columns: 1.08fr .92fr; gap: 20px; min-height: 320px; }
+.cover-card,
+.meta-card,
+.summary-card {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.76);
+}
+.cover-card { min-height: 320px; overflow: hidden; }
+.cover-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover-placeholder {
+  width: 100%; height: 100%; min-height: 320px;
+  display: grid; place-content: center; text-align: center; gap: 8px;
+  color: var(--muted);
+  background: linear-gradient(135deg, rgba(238,233,247,.72), rgba(255,255,255,.84));
+}
+.cover-placeholder span { font: 500 22px Georgia, serif; color: var(--lavender); }
+
+.meta-card { padding: 22px; }
+dl { margin: 0; display: grid; gap: 17px; }
+dl div { border-bottom: 1px solid #eee9f4; padding-bottom: 10px; }
+dt { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+dd { margin: 0; color: #4a435d; line-height: 1.45; overflow-wrap: anywhere; }
+.tag-box { margin-top: 20px; padding: 14px; background: #f5f1fa; border: 1px solid #e7e0f1; }
+.tag-box span { font-size: 10px; letter-spacing: .15em; color: var(--gold); }
+.tag-box p { margin: 8px 0 0; line-height: 1.6; color: var(--lavender-deep); overflow-wrap: anywhere; }
+
+.summary-card { padding: 24px 26px; min-height: 210px; }
+.section-title { display: flex; align-items: center; gap: 12px; color: var(--lavender-deep); font: 500 18px Georgia, serif; }
+.section-title i { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); flex: 1; }
+.summary-card p { margin: 18px 0 0; white-space: pre-wrap; line-height: 1.8; font-size: 14px; color: #555065; overflow-wrap: anywhere; }
+.sheet-footer { display: flex; justify-content: space-between; align-items: center; font-size: 10px; letter-spacing: .14em; color: #9a93a8; }
+
+@media (max-width: 1100px) {
+  .app-shell { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .app-shell { padding: 12px; gap: 14px; }
+  .editor-panel, .preview-panel { border-radius: 18px; padding: 18px; }
+  .two-col { grid-template-columns: 1fr; }
+  .sheet-wrap { justify-content: flex-start; }
+  .plot-sheet { transform-origin: top left; }
+}
