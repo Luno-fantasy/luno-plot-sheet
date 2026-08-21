@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUNO PLOT SHEET</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="editor-panel">
+      <header class="brand-block">
+        <p class="eyebrow">LUNO WORKS</p>
+        <h1>LUNO PLOT SHEET</h1>
+        <p class="subtitle">作品情報を入れるだけで、X投稿用の紹介シートを作れます。</p>
+      </header>
+
+      <div class="form-grid">
+        <label>
+          <span>カバー画像</span>
+          <input id="coverInput" type="file" accept="image/*" />
+        </label>
+
+        <label>
+          <span>タイトル</span>
+          <input id="titleInput" type="text" maxlength="40" placeholder="作品タイトル" />
+        </label>
+
+        <label>
+          <span>キャッチコピー</span>
+          <input id="catchInput" type="text" maxlength="80" placeholder="ひとことで惹き込むコピー" />
+        </label>
+
+        <div class="two-col">
+          <label>
+            <span>Category</span>
+            <input id="categoryInput" type="text" placeholder="Fantasy / Mafia / Modern..." />
+          </label>
+          <label>
+            <span>Type</span>
+            <input id="typeInput" type="text" placeholder="NL / BL / GL / Multi..." />
+          </label>
+        </div>
+
+        <label>
+          <span>Hashtag</span>
+          <input id="tagInput" type="text" placeholder="#執着 #幼馴染 #逆ハー" />
+        </label>
+
+        <div class="two-col">
+          <label>
+            <span>Creator</span>
+            <input id="creatorInput" type="text" placeholder="Luno" />
+          </label>
+          <label>
+            <span>Platform / ID</span>
+            <input id="idInput" type="text" placeholder="ZETA / Talelynx / Plaitoon など" />
+          </label>
+        </div>
+
+        <label>
+          <span>Synopsis & Character</span>
+          <textarea id="summaryInput" rows="9" maxlength="900" placeholder="短いあらすじやキャラクター紹介を入力"></textarea>
+          <small><span id="charCount">0</span> / 900</small>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="sampleButton" type="button" class="secondary">サンプルを入れる</button>
+        <button id="resetButton" type="button" class="secondary">リセット</button>
+        <button id="downloadButton" type="button" class="primary">PNGを書き出す</button>
+      </div>
+      <p id="statusText" class="status" aria-live="polite"></p>
+    </section>
+
+    <section class="preview-panel">
+      <div class="preview-head">
+        <div>
+          <p class="eyebrow">LIVE PREVIEW</p>
+          <h2>X投稿用プレビュー</h2>
+        </div>
+        <span class="size-chip">1200 × 1500</span>
+      </div>
+
+      <div class="sheet-wrap">
+        <article id="plotSheet" class="plot-sheet" aria-label="プロット紹介シートのプレビュー">
+          <div class="celestial celestial-a">☾</div>
+          <div class="celestial celestial-b">✦</div>
+          <div class="celestial celestial-c">✧</div>
+
+          <header class="sheet-header">
+            <p class="sheet-kicker">STORY ARCHIVE</p>
+            <h3 id="previewTitle">作品タイトル</h3>
+            <p id="previewCatch" class="sheet-catch">ここにキャッチコピーが入ります。</p>
+          </header>
+
+          <div class="sheet-main">
+            <section class="cover-card">
+              <div id="coverPlaceholder" class="cover-placeholder">
+                <span>Cover Image</span>
+                <small>ここに作品画像が入ります</small>
+              </div>
+              <img id="previewCover" alt="作品カバー" hidden />
+            </section>
+
+            <section class="meta-card">
+              <dl>
+                <div><dt>Category</dt><dd id="previewCategory">Fantasy</dd></div>
+                <div><dt>Type</dt><dd id="previewType">NL / Multi</dd></div>
+                <div><dt>Creator</dt><dd id="previewCreator">Luno</dd></div>
+                <div><dt>Platform</dt><dd id="previewId">ZETA / Talelynx</dd></div>
+              </dl>
+              <div class="tag-box">
+                <span>Hashtag</span>
+                <p id="previewTags">#幻想 #創作 #AIチャット</p>
+              </div>
+            </section>
+          </div>
+
+          <section class="summary-card">
+            <div class="section-title">
+              <span>Synopsis & Character</span>
+              <i></i>
+            </div>
+            <p id="previewSummary">ここにあらすじやキャラクター紹介が表示されます。作品の関係性や惹きになる要素を、短く読みやすくまとめる想定です。</p>
+          </section>
+
+          <footer class="sheet-footer">
+            <span>made with LUNO PLOT SHEET</span>
+            <span>✦</span>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
