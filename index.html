@@ -8,13 +8,19 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
+  <div class="ambient-moon" aria-hidden="true"></div>
+  <div class="ambient-orbit orbit-a" aria-hidden="true"></div>
+  <div class="ambient-orbit orbit-b" aria-hidden="true"></div>
+
   <main class="app-shell">
     <section class="editor-panel">
       <header class="brand-block">
-        <p class="eyebrow">LUNO WORKS</p>
+        <p class="eyebrow">LUNO WORKS · STORY ATELIER</p>
         <h1>LUNO PLOT SHEET</h1>
-        <p class="subtitle">作品情報を入れるだけで、X投稿用の紹介シートを作れます。</p>
+        <p class="subtitle">ひとつの物語を、静かな幻想の一枚へ。</p>
       </header>
+
+      <div class="ornament-rule" aria-hidden="true"><span>☾</span><i></i><span>✦</span><i></i><span>☽</span></div>
 
       <div class="form-grid">
         <label>
@@ -77,20 +83,24 @@
     <section class="preview-panel">
       <div class="preview-head">
         <div>
-          <p class="eyebrow">LIVE PREVIEW</p>
-          <h2>X投稿用プレビュー</h2>
+          <p class="eyebrow">LIVE PREVIEW · ARCHIVE PAGE</p>
+          <h2>物語の一頁を仕立てる</h2>
         </div>
         <span class="size-chip">1200 × 1500</span>
       </div>
 
       <div class="sheet-wrap">
         <article id="plotSheet" class="plot-sheet" aria-label="プロット紹介シートのプレビュー">
+          <div class="sheet-orbit orbit-left" aria-hidden="true"></div>
+          <div class="sheet-orbit orbit-right" aria-hidden="true"></div>
           <div class="celestial celestial-a">☾</div>
           <div class="celestial celestial-b">✦</div>
-          <div class="celestial celestial-c">✧</div>
+          <div class="celestial celestial-c">☽</div>
+          <div class="celestial celestial-d">✧</div>
 
           <header class="sheet-header">
-            <p class="sheet-kicker">STORY ARCHIVE</p>
+            <p class="sheet-kicker">LUNO WORKS · STORY ARCHIVE</p>
+            <div class="story-number">✦ STORY RECORD ✦</div>
             <h3 id="previewTitle">作品タイトル</h3>
             <p id="previewCatch" class="sheet-catch">ここにキャッチコピーが入ります。</p>
           </header>
@@ -127,8 +137,8 @@
           </section>
 
           <footer class="sheet-footer">
-            <span>made with LUNO PLOT SHEET</span>
-            <span>✦</span>
+            <span>made in the LUNO WORKS story atelier</span>
+            <span>☾ ✦ ☽</span>
           </footer>
         </article>
       </div>
