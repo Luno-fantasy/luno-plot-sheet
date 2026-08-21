@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>LUNO PLOT SHEET</title>
-  <link rel="stylesheet" href="style.css?v=20260821-1548" />
+  <link rel="stylesheet" href="style.css?v=20260821-1553" />
   <style>
     html, body { width: 100%; max-width: 100%; overflow-x: clip; }
     .app-shell, .editor-panel, .preview-panel, .form-grid, .two-col, .sheet-wrap { min-width: 0; max-width: 100%; }
@@ -17,12 +17,15 @@
     .type-option:has(input:checked), .platform-option:has(input:checked) { background: rgba(169,155,203,.17); border-color: rgba(191,176,224,.48); }
     .relationship-select { width: 100%; min-width: 0; border: 1px solid rgba(201,190,231,.22); background: #262139; color: #f3eefb; border-radius: 12px; padding: 11px 38px 11px 12px; font: inherit; }
     .relationship-other[hidden] { display: none; }
-    .saved-works { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(201,190,231,.14); }
-    .saved-works h3 { margin: 0 0 12px; font: 500 16px Georgia, "Yu Mincho", serif; color: #e4dcef; letter-spacing: .05em; }
+    .saved-works, .x-post-tools { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(201,190,231,.14); }
+    .saved-works h3, .x-post-tools h3 { margin: 0 0 6px; font: 500 16px Georgia, "Yu Mincho", serif; color: #e4dcef; letter-spacing: .05em; }
+    .tool-note { margin: 0 0 12px; color: #968ea6; font-size: 12px; line-height: 1.6; }
     .saved-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; }
     .saved-row select { width: 100%; min-width: 0; border: 1px solid rgba(201,190,231,.22); background: #262139; color: #f3eefb; border-radius: 12px; padding: 11px 12px; font: inherit; }
-    .saved-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .saved-actions button { padding: 9px 13px; }
+    .saved-actions, .x-post-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .saved-actions button, .x-post-actions button { padding: 9px 13px; }
+    .x-post-output { width: 100%; min-height: 210px; margin-top: 10px; border: 1px solid rgba(201,190,231,.22); background: rgba(255,255,255,.045); color: #f3eefb; border-radius: 14px; padding: 13px 14px; resize: vertical; line-height: 1.7; }
+    .x-post-meta { display: flex; justify-content: flex-end; margin-top: 6px; color: #8f879f; font-size: 12px; }
     .relationship-band { position: relative; z-index: 2; width: fit-content; max-width: 88%; margin: -10px auto 0; padding: 8px 16px; border-top: 1px solid rgba(172,144,91,.45); border-bottom: 1px solid rgba(125,107,157,.18); color: #65597a; text-align: center; font: 500 13px/1.5 Georgia, "Yu Mincho", serif; letter-spacing: .04em; }
     .relationship-band::before { content: "RELATIONSHIP"; display: block; margin-bottom: 3px; font: 500 8px/1.2 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif; letter-spacing: .18em; color: #a28758; }
     @media (max-width: 760px) {
@@ -122,6 +125,17 @@
         <button id="downloadButton" type="button" class="primary">PNGを書き出す</button>
       </div>
 
+      <section class="x-post-tools" aria-label="X投稿文生成">
+        <h3>X Post Generator</h3>
+        <p class="tool-note">入力した作品情報から、新作告知用の投稿文を作ります。</p>
+        <button id="generateXPostButton" type="button" class="primary">X投稿文を生成</button>
+        <textarea id="xPostOutput" class="x-post-output" aria-label="X投稿文" placeholder="ここに投稿文が生成されます"></textarea>
+        <div class="x-post-meta"><span id="xPostCount">0</span> 文字</div>
+        <div class="x-post-actions">
+          <button id="copyXPostButton" type="button" class="secondary">投稿文をコピー</button>
+        </div>
+      </section>
+
       <section class="saved-works" aria-label="保存した作品">
         <h3>Saved Works</h3>
         <div class="saved-row">
@@ -187,6 +201,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=20260821-1548"></script>
+  <script src="script.js?v=20260821-1553"></script>
 </body>
 </html>
