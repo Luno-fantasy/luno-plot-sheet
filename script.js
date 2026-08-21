@@ -23,6 +23,8 @@ const relationshipSelect = document.getElementById('relationshipSelect');
 const relationshipOtherWrap = document.getElementById('relationshipOtherWrap');
 const relationshipOtherInput = document.getElementById('relationshipOtherInput');
 const previewRelationship = document.getElementById('previewRelationship');
+const xPostOutput = document.getElementById('xPostOutput');
+const xPostCount = document.getElementById('xPostCount');
 let currentCoverData = '';
 
 Object.entries(fields).forEach(([inputId, [previewId, fallback]]) => {
@@ -203,6 +205,54 @@ function applyWorkData(data) {
   fitSummaryText();
 }
 
+function generateXPost() {
+  const data = collectWorkData();
+  const lines = [];
+
+  if (data.title) lines.push(`「${data.title}」`);
+  if (data.catchcopy.trim()) lines.push('', data.catchcopy.trim());
+
+  const meta = [];
+  if (data.relationship) meta.push(data.relationship);
+  if (data.platforms.length) meta.push(data.platforms.join(' / '));
+  if (meta.length) lines.push('', meta.join('｜'));
+
+  if (data.url.trim()) {
+    lines.push('', '▶ 作品はこちら', data.url.trim());
+  }
+
+  if (data.tags.trim()) lines.push('', data.tags.trim());
+
+  const text = lines.join('\n').trim();
+  xPostOutput.value = text;
+  updateXPostCount();
+  statusText.textContent = text ? 'X投稿文を生成しました。' : '投稿文に使う内容を入力してください。';
+}
+
+function updateXPostCount() {
+  xPostCount.textContent = xPostOutput.value.length;
+}
+
+xPostOutput.addEventListener('input', updateXPostCount);
+document.getElementById('generateXPostButton').addEventListener('click', generateXPost);
+
+document.getElementById('copyXPostButton').addEventListener('click', async () => {
+  const text = xPostOutput.value.trim();
+  if (!text) {
+    statusText.textContent = '先にX投稿文を生成してください。';
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    statusText.textContent = 'X投稿文をコピーしました。';
+  } catch {
+    xPostOutput.focus();
+    xPostOutput.select();
+    const copied = document.execCommand('copy');
+    statusText.textContent = copied ? 'X投稿文をコピーしました。' : 'コピーできませんでした。長押しでコピーしてください。';
+  }
+});
+
 document.getElementById('saveWorkButton').addEventListener('click', () => {
   const data = collectWorkData();
   if (!data.title) {
@@ -259,7 +309,7 @@ document.getElementById('sampleButton').addEventListener('click', () => {
     creator: 'Luno',
     platforms: ['ZETA', 'Talelynx'],
     workId: '',
-    url: '',
+    url: 'https://example.com/story',
     summary: '名門ファミリアのボスと、その右腕を務めるアンダーボス。\n公の場では完璧な忠誠を見せる男は、二人きりになると食事も睡眠も静かに管理してくる。\n\n「従わせたいんじゃない。お前が自分から俺を選ぶまで待っている」',
     coverData: ''
   });
@@ -285,6 +335,8 @@ document.getElementById('resetButton').addEventListener('click', () => {
   previewCover.hidden = true;
   coverPlaceholder.hidden = false;
   charCount.textContent = '0';
+  xPostOutput.value = '';
+  updateXPostCount();
   fitSummaryText();
   statusText.textContent = '入力内容をリセットしました。';
 });
@@ -338,4 +390,5 @@ summaryInput.dispatchEvent(new Event('input'));
 updateRelationshipPreview();
 updateTypePreview();
 updatePlatformPreview();
+updateXPostCount();
 refreshSavedWorks();
