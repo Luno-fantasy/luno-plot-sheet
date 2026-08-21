@@ -4,24 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>LUNO PLOT SHEET</title>
-  <link rel="stylesheet" href="style.css?v=20260821-1526" />
+  <link rel="stylesheet" href="style.css?v=20260821-1541" />
   <style>
     html, body { width: 100%; max-width: 100%; overflow-x: clip; }
     .app-shell, .editor-panel, .preview-panel, .form-grid, .two-col, .sheet-wrap { min-width: 0; max-width: 100%; }
-    .type-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
-    .type-fieldset legend { padding: 0; margin: 0 0 9px; color: #d8d0e9; font-size: 13px; font-weight: 500; }
-    .type-options { display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 8px; width: 100%; }
-    .type-option { display: inline-flex !important; grid-template-columns: none !important; width: auto !important; align-items: center; gap: 7px; padding: 9px 12px; border: 1px solid rgba(201,190,231,.22); border-radius: 999px; background: rgba(255,255,255,.04); }
-    .type-option input { width: 16px !important; height: 16px !important; min-width: 16px !important; margin: 0; padding: 0; flex: 0 0 16px; }
-    .type-option span { display: inline !important; font-size: 13px; color: #d7cee7; font-weight: 400; }
+    .type-fieldset, .platform-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .type-fieldset legend, .platform-fieldset legend { padding: 0; margin: 0 0 9px; color: #d8d0e9; font-size: 13px; font-weight: 500; }
+    .type-options, .platform-options { display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 8px; width: 100%; }
+    .type-option, .platform-option { display: inline-flex !important; grid-template-columns: none !important; width: auto !important; align-items: center; gap: 7px; padding: 9px 12px; border: 1px solid rgba(201,190,231,.22); border-radius: 999px; background: rgba(255,255,255,.04); cursor: pointer; }
+    .type-option input, .platform-option input { width: 16px !important; height: 16px !important; min-width: 16px !important; margin: 0; padding: 0; flex: 0 0 16px; accent-color: #9c8abb; }
+    .type-option span, .platform-option span { display: inline !important; font-size: 13px; color: #d7cee7; font-weight: 400; }
+    .type-option:has(input:checked), .platform-option:has(input:checked) { background: rgba(169,155,203,.17); border-color: rgba(191,176,224,.48); }
+    .saved-works { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(201,190,231,.14); }
+    .saved-works h3 { margin: 0 0 12px; font: 500 16px Georgia, "Yu Mincho", serif; color: #e4dcef; letter-spacing: .05em; }
+    .saved-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; }
+    .saved-row select { width: 100%; min-width: 0; border: 1px solid rgba(201,190,231,.22); background: #262139; color: #f3eefb; border-radius: 12px; padding: 11px 12px; font: inherit; }
+    .saved-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .saved-actions button { padding: 9px 13px; }
+    .relationship-band { position: relative; z-index: 2; width: fit-content; max-width: 88%; margin: -10px auto 0; padding: 8px 16px; border-top: 1px solid rgba(172,144,91,.45); border-bottom: 1px solid rgba(125,107,157,.18); color: #65597a; text-align: center; font: 500 13px/1.5 Georgia, "Yu Mincho", serif; letter-spacing: .04em; }
+    .relationship-band::before { content: "RELATIONSHIP"; display: block; margin-bottom: 3px; font: 500 8px/1.2 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif; letter-spacing: .18em; color: #a28758; }
     @media (max-width: 760px) {
       .app-shell { display: block !important; width: 100% !important; max-width: 100vw !important; padding: 10px !important; }
       .editor-panel, .preview-panel { width: 100% !important; max-width: calc(100vw - 20px) !important; margin: 0 0 12px !important; padding: 16px !important; overflow: hidden; }
       .two-col { grid-template-columns: minmax(0,1fr) !important; }
-      input, textarea { max-width: 100% !important; min-width: 0 !important; }
-      input[type="file"] { width: 100% !important; font-size: 16px !important; }
-      .type-options { display: flex !important; flex-wrap: wrap !important; }
+      input, textarea, select { max-width: 100% !important; min-width: 0 !important; font-size: 16px !important; }
+      input[type="file"] { width: 100% !important; }
+      .type-options, .platform-options { display: flex !important; flex-wrap: wrap !important; }
       .sheet-wrap { width: 100% !important; overflow: hidden !important; }
+      .saved-row { grid-template-columns: 1fr; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -42,25 +52,11 @@
       <div class="ornament-rule" aria-hidden="true"><span>☾</span><i></i><span>✦</span><i></i><span>☽</span></div>
 
       <div class="form-grid">
-        <label>
-          <span>カバー画像</span>
-          <input id="coverInput" type="file" accept="image/*" />
-        </label>
-
-        <label>
-          <span>タイトル</span>
-          <input id="titleInput" type="text" maxlength="40" placeholder="作品タイトル" />
-        </label>
-
-        <label>
-          <span>キャッチコピー</span>
-          <input id="catchInput" type="text" maxlength="80" placeholder="ひとことで惹き込むコピー" />
-        </label>
-
-        <label>
-          <span>Category</span>
-          <input id="categoryInput" type="text" placeholder="Fantasy / Mafia / Modern..." />
-        </label>
+        <label><span>カバー画像</span><input id="coverInput" type="file" accept="image/*" /></label>
+        <label><span>タイトル</span><input id="titleInput" type="text" maxlength="40" placeholder="作品タイトル" /></label>
+        <label><span>キャッチコピー</span><input id="catchInput" type="text" maxlength="80" placeholder="ひとことで惹き込むコピー" /></label>
+        <label><span>Relationship / 関係性</span><input id="relationshipInput" type="text" maxlength="60" placeholder="幼馴染 × 片想い / 右腕 × ボス など" /></label>
+        <label><span>Category</span><input id="categoryInput" type="text" placeholder="Fantasy / Mafia / Modern..." /></label>
 
         <fieldset class="type-fieldset">
           <legend>Type</legend>
@@ -73,20 +69,22 @@
           </div>
         </fieldset>
 
-        <label>
-          <span>Hashtag</span>
-          <input id="tagInput" type="text" placeholder="#執着 #幼馴染 #逆ハー" />
-        </label>
+        <label><span>Hashtag</span><input id="tagInput" type="text" placeholder="#執着 #幼馴染 #逆ハー" /></label>
+        <label><span>Creator</span><input id="creatorInput" type="text" placeholder="Luno" /></label>
+
+        <fieldset class="platform-fieldset">
+          <legend>Platform</legend>
+          <div class="platform-options">
+            <label class="platform-option"><input type="checkbox" name="platform" value="ZETA" /><span>ZETA</span></label>
+            <label class="platform-option"><input type="checkbox" name="platform" value="Talelynx" /><span>Talelynx</span></label>
+            <label class="platform-option"><input type="checkbox" name="platform" value="Plaitoon" /><span>Plaitoon</span></label>
+            <label class="platform-option"><input type="checkbox" name="platform" value="その他" /><span>その他</span></label>
+          </div>
+        </fieldset>
 
         <div class="two-col">
-          <label>
-            <span>Creator</span>
-            <input id="creatorInput" type="text" placeholder="Luno" />
-          </label>
-          <label>
-            <span>Platform / ID</span>
-            <input id="idInput" type="text" placeholder="ZETA / Talelynx / Plaitoon など" />
-          </label>
+          <label><span>作品ID（任意）</span><input id="idInput" type="text" placeholder="作品IDなど" /></label>
+          <label><span>作品URL（任意）</span><input id="urlInput" type="url" placeholder="https://..." /></label>
         </div>
 
         <label>
@@ -101,15 +99,26 @@
         <button id="resetButton" type="button" class="secondary">リセット</button>
         <button id="downloadButton" type="button" class="primary">PNGを書き出す</button>
       </div>
+
+      <section class="saved-works" aria-label="保存した作品">
+        <h3>Saved Works</h3>
+        <div class="saved-row">
+          <select id="savedWorksSelect" aria-label="保存した作品を選択"><option value="">保存した作品を選択</option></select>
+          <button id="loadWorkButton" type="button" class="secondary">呼び出す</button>
+        </div>
+        <div class="saved-actions">
+          <button id="saveWorkButton" type="button" class="primary">この作品を保存</button>
+          <button id="deleteWorkButton" type="button" class="secondary">保存から削除</button>
+        </div>
+        <small>この端末のブラウザ内に保存されます。</small>
+      </section>
+
       <p id="statusText" class="status" aria-live="polite"></p>
     </section>
 
     <section class="preview-panel">
       <div class="preview-head">
-        <div>
-          <p class="eyebrow">LIVE PREVIEW · ARCHIVE PAGE</p>
-          <h2>物語の一頁を仕立てる</h2>
-        </div>
+        <div><p class="eyebrow">LIVE PREVIEW · ARCHIVE PAGE</p><h2>物語の一頁を仕立てる</h2></div>
         <span class="size-chip">1200 × 1500</span>
       </div>
 
@@ -117,10 +126,7 @@
         <article id="plotSheet" class="plot-sheet" aria-label="プロット紹介シートのプレビュー">
           <div class="sheet-orbit orbit-left" aria-hidden="true"></div>
           <div class="sheet-orbit orbit-right" aria-hidden="true"></div>
-          <div class="celestial celestial-a">☾</div>
-          <div class="celestial celestial-b">✦</div>
-          <div class="celestial celestial-c">☽</div>
-          <div class="celestial celestial-d">✧</div>
+          <div class="celestial celestial-a">☾</div><div class="celestial celestial-b">✦</div><div class="celestial celestial-c">☽</div><div class="celestial celestial-d">✧</div>
 
           <header class="sheet-header">
             <p class="sheet-kicker">LUNO WORKS · STORY ARCHIVE</p>
@@ -129,12 +135,11 @@
             <p id="previewCatch" class="sheet-catch">ここにキャッチコピーが入ります。</p>
           </header>
 
+          <div id="previewRelationship" class="relationship-band">関係性を入力してください</div>
+
           <div class="sheet-main">
             <section class="cover-card">
-              <div id="coverPlaceholder" class="cover-placeholder">
-                <span>Cover Image</span>
-                <small>ここに作品画像が入ります</small>
-              </div>
+              <div id="coverPlaceholder" class="cover-placeholder"><span>Cover Image</span><small>ここに作品画像が入ります</small></div>
               <img id="previewCover" alt="作品カバー" hidden />
             </section>
 
@@ -143,32 +148,23 @@
                 <div><dt>Category</dt><dd id="previewCategory">Fantasy</dd></div>
                 <div><dt>Type</dt><dd id="previewType">未選択</dd></div>
                 <div><dt>Creator</dt><dd id="previewCreator">Luno</dd></div>
-                <div><dt>Platform</dt><dd id="previewId">ZETA / Talelynx</dd></div>
+                <div><dt>Platform</dt><dd id="previewPlatform">未選択</dd></div>
               </dl>
-              <div class="tag-box">
-                <span>Hashtag</span>
-                <p id="previewTags">#幻想 #創作 #AIチャット</p>
-              </div>
+              <div class="tag-box"><span>Hashtag</span><p id="previewTags">#幻想 #創作 #AIチャット</p></div>
             </section>
           </div>
 
           <section class="summary-card">
-            <div class="section-title">
-              <span>Synopsis & Character</span>
-              <i></i>
-            </div>
+            <div class="section-title"><span>Synopsis & Character</span><i></i></div>
             <p id="previewSummary">ここにあらすじやキャラクター紹介が表示されます。作品の関係性や惹きになる要素を、短く読みやすくまとめる想定です。</p>
           </section>
 
-          <footer class="sheet-footer">
-            <span>made in the LUNO WORKS story atelier</span>
-            <span>☾ ✦ ☽</span>
-          </footer>
+          <footer class="sheet-footer"><span>made in the LUNO WORKS story atelier</span><span>☾ ✦ ☽</span></footer>
         </article>
       </div>
     </section>
   </main>
 
-  <script src="script.js?v=20260821-1526"></script>
+  <script src="script.js?v=20260821-1541"></script>
 </body>
 </html>
