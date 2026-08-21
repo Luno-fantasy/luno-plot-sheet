@@ -4,7 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>LUNO PLOT SHEET</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20260821-1526" />
+  <style>
+    html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+    .app-shell, .editor-panel, .preview-panel, .form-grid, .two-col, .sheet-wrap { min-width: 0; max-width: 100%; }
+    .type-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .type-fieldset legend { padding: 0; margin: 0 0 9px; color: #d8d0e9; font-size: 13px; font-weight: 500; }
+    .type-options { display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 8px; width: 100%; }
+    .type-option { display: inline-flex !important; grid-template-columns: none !important; width: auto !important; align-items: center; gap: 7px; padding: 9px 12px; border: 1px solid rgba(201,190,231,.22); border-radius: 999px; background: rgba(255,255,255,.04); }
+    .type-option input { width: 16px !important; height: 16px !important; min-width: 16px !important; margin: 0; padding: 0; flex: 0 0 16px; }
+    .type-option span { display: inline !important; font-size: 13px; color: #d7cee7; font-weight: 400; }
+    @media (max-width: 760px) {
+      .app-shell { display: block !important; width: 100% !important; max-width: 100vw !important; padding: 10px !important; }
+      .editor-panel, .preview-panel { width: 100% !important; max-width: calc(100vw - 20px) !important; margin: 0 0 12px !important; padding: 16px !important; overflow: hidden; }
+      .two-col { grid-template-columns: minmax(0,1fr) !important; }
+      input, textarea { max-width: 100% !important; min-width: 0 !important; }
+      input[type="file"] { width: 100% !important; font-size: 16px !important; }
+      .type-options { display: flex !important; flex-wrap: wrap !important; }
+      .sheet-wrap { width: 100% !important; overflow: hidden !important; }
+    }
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
@@ -150,6 +169,6 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260821-1526"></script>
 </body>
 </html>
