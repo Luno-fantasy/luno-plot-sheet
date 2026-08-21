@@ -1,7 +1,6 @@
 const fields = {
   titleInput: ['previewTitle', '作品タイトル'],
   catchInput: ['previewCatch', 'ここにキャッチコピーが入ります。'],
-  relationshipInput: ['previewRelationship', '関係性を入力してください'],
   categoryInput: ['previewCategory', 'Fantasy'],
   creatorInput: ['previewCreator', 'Luno'],
   tagInput: ['previewTags', '#幻想 #創作 #AIチャット'],
@@ -20,6 +19,10 @@ const platformInputs = [...document.querySelectorAll('input[name="platform"]')];
 const previewType = document.getElementById('previewType');
 const previewPlatform = document.getElementById('previewPlatform');
 const savedWorksSelect = document.getElementById('savedWorksSelect');
+const relationshipSelect = document.getElementById('relationshipSelect');
+const relationshipOtherWrap = document.getElementById('relationshipOtherWrap');
+const relationshipOtherInput = document.getElementById('relationshipOtherInput');
+const previewRelationship = document.getElementById('previewRelationship');
 let currentCoverData = '';
 
 Object.entries(fields).forEach(([inputId, [previewId, fallback]]) => {
@@ -33,6 +36,22 @@ Object.entries(fields).forEach(([inputId, [previewId, fallback]]) => {
     }
   });
 });
+
+function getRelationshipValue() {
+  if (relationshipSelect.value === 'その他') {
+    return relationshipOtherInput.value.trim() || 'その他';
+  }
+  return relationshipSelect.value;
+}
+
+function updateRelationshipPreview() {
+  const isOther = relationshipSelect.value === 'その他';
+  relationshipOtherWrap.hidden = !isOther;
+  previewRelationship.textContent = getRelationshipValue() || '関係性を選択してください';
+}
+
+relationshipSelect.addEventListener('change', updateRelationshipPreview);
+relationshipOtherInput.addEventListener('input', updateRelationshipPreview);
 
 function selectedValues(inputs) {
   return inputs.filter(input => input.checked).map(input => input.value);
@@ -121,7 +140,7 @@ function collectWorkData() {
   return {
     title: document.getElementById('titleInput').value.trim(),
     catchcopy: document.getElementById('catchInput').value,
-    relationship: document.getElementById('relationshipInput').value,
+    relationship: getRelationshipValue(),
     category: document.getElementById('categoryInput').value,
     types: selectedValues(typeInputs),
     tags: document.getElementById('tagInput').value,
@@ -134,11 +153,25 @@ function collectWorkData() {
   };
 }
 
+function applyRelationship(value = '') {
+  const standardValues = [...relationshipSelect.options].map(option => option.value).filter(Boolean);
+  if (!value) {
+    relationshipSelect.value = '';
+    relationshipOtherInput.value = '';
+  } else if (standardValues.includes(value) && value !== 'その他') {
+    relationshipSelect.value = value;
+    relationshipOtherInput.value = '';
+  } else {
+    relationshipSelect.value = 'その他';
+    relationshipOtherInput.value = value === 'その他' ? '' : value;
+  }
+  updateRelationshipPreview();
+}
+
 function applyWorkData(data) {
   const mapping = {
     titleInput: data.title || '',
     catchInput: data.catchcopy || '',
-    relationshipInput: data.relationship || '',
     categoryInput: data.category || '',
     tagInput: data.tags || '',
     creatorInput: data.creator || '',
@@ -151,6 +184,7 @@ function applyWorkData(data) {
     input.value = value;
     input.dispatchEvent(new Event('input'));
   });
+  applyRelationship(data.relationship || '');
   typeInputs.forEach(input => { input.checked = (data.types || []).includes(input.value); });
   platformInputs.forEach(input => { input.checked = (data.platforms || []).includes(input.value); });
   updateTypePreview();
@@ -218,7 +252,7 @@ document.getElementById('sampleButton').addEventListener('click', () => {
   applyWorkData({
     title: 'ボス、今夜は俺に従え。',
     catchcopy: '忠実な右腕が、二人きりの夜だけ命令を変える。',
-    relationship: '右腕 × ファミリアのボス',
+    relationship: '主従',
     category: 'Mafia / Romance',
     types: ['NL'],
     tags: '#主従 #執着 #マフィア #大人の恋愛',
@@ -238,6 +272,7 @@ document.getElementById('resetButton').addEventListener('click', () => {
     input.value = '';
     document.getElementById(previewId).textContent = fallback;
   });
+  applyRelationship('');
   document.getElementById('idInput').value = '';
   document.getElementById('urlInput').value = '';
   typeInputs.forEach(input => { input.checked = false; });
@@ -300,6 +335,7 @@ function fitPreview() {
 window.addEventListener('resize', fitPreview);
 window.addEventListener('load', fitPreview);
 summaryInput.dispatchEvent(new Event('input'));
+updateRelationshipPreview();
 updateTypePreview();
 updatePlatformPreview();
 refreshSavedWorks();
