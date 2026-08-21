@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>LUNO PLOT SHEET</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -38,16 +38,21 @@
           <input id="catchInput" type="text" maxlength="80" placeholder="ひとことで惹き込むコピー" />
         </label>
 
-        <div class="two-col">
-          <label>
-            <span>Category</span>
-            <input id="categoryInput" type="text" placeholder="Fantasy / Mafia / Modern..." />
-          </label>
-          <label>
-            <span>Type</span>
-            <input id="typeInput" type="text" placeholder="NL / BL / GL / Multi..." />
-          </label>
-        </div>
+        <label>
+          <span>Category</span>
+          <input id="categoryInput" type="text" placeholder="Fantasy / Mafia / Modern..." />
+        </label>
+
+        <fieldset class="type-fieldset">
+          <legend>Type</legend>
+          <div class="type-options">
+            <label class="type-option"><input type="checkbox" name="type" value="NL" /><span>NL</span></label>
+            <label class="type-option"><input type="checkbox" name="type" value="BL" /><span>BL</span></label>
+            <label class="type-option"><input type="checkbox" name="type" value="GL" /><span>GL</span></label>
+            <label class="type-option"><input type="checkbox" name="type" value="Multi" /><span>Multi</span></label>
+            <label class="type-option"><input type="checkbox" name="type" value="その他" /><span>その他</span></label>
+          </div>
+        </fieldset>
 
         <label>
           <span>Hashtag</span>
@@ -117,7 +122,7 @@
             <section class="meta-card">
               <dl>
                 <div><dt>Category</dt><dd id="previewCategory">Fantasy</dd></div>
-                <div><dt>Type</dt><dd id="previewType">NL / Multi</dd></div>
+                <div><dt>Type</dt><dd id="previewType">未選択</dd></div>
                 <div><dt>Creator</dt><dd id="previewCreator">Luno</dd></div>
                 <div><dt>Platform</dt><dd id="previewId">ZETA / Talelynx</dd></div>
               </dl>
